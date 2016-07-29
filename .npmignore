@@ -1,0 +1,9 @@
+.project
+node_modules/*
+/.idea/
+/node.iml
+/typings/
+
+# Security assets
+**.pem
+**.crt
