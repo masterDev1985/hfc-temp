@@ -26,32 +26,43 @@ var hfc = require('../..');
 var util = require('util');
 var fs = require('fs');
 
-function getTestChain(name) {
-   name = name || "testChain";
-   var chain = hfc.newChain(name);
-   chain.setKeyValStore(hfc.newFileKeyValStore('/tmp/keyValStore'));
-   chain.setECDSAModeForGRPC(true);
-   if (fs.existsSync("tlsca.cert")) {
-      var pem = fs.readFileSync('tlsca.cert');
-      chain.setMemberServicesUrl("grpcs://localhost:50051", {pem:pem, hostnameOverride:'tlsca'});
-      chain.addPeer("grpcs://localhost:30303", {pem:pem, hostnameOverride:'tlsca'});
-   } else {
-      chain.setMemberServicesUrl("grpc://localhost:50051");
-      chain.addPeer("grpc://localhost:30303");
-   }
+//var filename = "tlsca.pem";
+var filename = "blockchain-service-root.pem";
+//var filename = "DigiCertCA.crt";
+//var filename = "blockchain.ibm.com.pem";
+//var filename = "blockchain-ca-cert.crt";
+//var filename = "blockchain-cert.pem";
+//var filename = "blockchain-key.pem";
 
-   //
-   // Set the chaincode deployment mode to either developent mode (user runs chaincode)
-   // or network mode (code package built and sent to the peer).
-   //
-   var mode =  process.env.DEPLOY_MODE;
-   console.log("$DEPLOY_MODE: " + mode);
-   if (mode === 'dev') {
-       chain.setDevMode(true);
-   } else {
-       chain.setDevMode(false);
-   }
-   return chain;
+function getTestChain(name) {
+    name = name || "testChain";
+    var chain = hfc.newChain(name);
+    chain.setKeyValStore(hfc.newFileKeyValStore('/tmp/keyValStore'));
+    //chain.setECDSAModeForGRPC(true);
+    chain.setECDSAModeForGRPC(false);
+    if (fs.existsSync(filename)) {
+        console.log("Using certificate:", filename);
+        var pem = fs.readFileSync(filename);
+        //chain.setMemberServicesUrl("grpcs://015f743f-1de1-4b37-bcda-2fbad8db56e9_ca.blockchain.ibm.com:30304", { pem: pem, hostnameOverride: 'tlsca' });
+        //chain.setMemberServicesUrl("grpcs://015f743f-1de1-4b37-bcda-2fbad8db56e9_ca.blockchain.ibm.com:30304", {});
+        chain.setMemberServicesUrl("grpcs://5c77a7b3-7c9b-441c-b61c-63b9e0e00a57_ca.dev.blockchain.ibm.com:30304", { pem: pem});
+    } else {
+        chain.setMemberServicesUrl("grpc://localhost:50051");
+    }
+    //chain.addPeer("grpc://localhost:30303");
+
+    //
+    // Set the chaincode deployment mode to either developent mode (user runs chaincode)
+    // or network mode (code package built and sent to the peer).
+    //
+    var mode = process.env.DEPLOY_MODE;
+    console.log("$DEPLOY_MODE: " + mode);
+    if (mode === 'dev') {
+        chain.setDevMode(true);
+    } else {
+        chain.setDevMode(false);
+    }
+    return chain;
 }
 
 exports.getTestChain = getTestChain;

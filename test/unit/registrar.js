@@ -22,7 +22,7 @@ var hfc = require('../..');
 var test = require('tape');
 var util = require('util');
 var fs = require('fs');
-var tutil = require('./test-util');
+var tutil = require('./test-util-service');
 
 var keyValStorePath = "/tmp/keyValStore";
 var keyValStorePath2 = keyValStorePath + "2";
@@ -57,7 +57,7 @@ function registrarTest(cb) {
    var expect="";
    var found="";
 
-   chain.enroll("admin", "Xurw3yU9zI0l", function (err, admin) {
+   chain.enroll("admin", "9bbc703d5a", function (err, admin) {
       if (err) return cb(err);
       chain.setRegistrar(admin);
       // Register and enroll webAdmin
@@ -98,7 +98,7 @@ function registerAndEnroll(name, r, registrar, chain, cb) {
     var registrationRequest = {
          roles: [ r ],
          enrollmentID: name,
-         account: "bank_a",
+         account: "group1",
          affiliation: "00001",
          registrar: registrar
     };
@@ -116,7 +116,7 @@ function enrollAgain(cb) {
    //
    fs.renameSync(keyValStorePath,keyValStorePath2);
    var chain = tutil.getTestChain("testChain2");
-   chain.enroll("admin", "Xurw3yU9zI0l", function (err, admin) {
+   chain.enroll("admin", "9bbc703d5a", function (err, admin) {
       rmdir(keyValStorePath);
       fs.renameSync(keyValStorePath2,keyValStorePath);
       if (!err) return cb(Error("admin should not be allowed to re-enroll"));
