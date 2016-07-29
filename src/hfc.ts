@@ -545,7 +545,7 @@ export class Chain {
           // Instruct boringssl to use ECC for tls.
           process.env['GRPC_SSL_CIPHER_SUITES'] = 'HIGH+ECDSA';
        } else {
-          process.env['GRPC_SSL_CIPHER_SUITES'] = undefined;
+          //process.env['GRPC_SSL_CIPHER_SUITES'] = undefined;
        }
     }
 
