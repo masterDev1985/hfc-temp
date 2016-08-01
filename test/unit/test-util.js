@@ -27,7 +27,7 @@ var util = require('util');
 var fs = require('fs');
 
 //var filename = "tlsca.pem";
-var filename = "blockchain-service-root.pem";
+var filename = "us.blockchain.ibm.com.cert";
 //var filename = "DigiCertCA.crt";
 //var filename = "blockchain.ibm.com.pem";
 //var filename = "blockchain-ca-cert.crt";
@@ -38,8 +38,8 @@ function getTestChain(name) {
     name = name || "testChain";
     var chain = hfc.newChain(name);
     chain.setKeyValStore(hfc.newFileKeyValStore('/tmp/keyValStore'));
-    //chain.setECDSAModeForGRPC(true);
-    chain.setECDSAModeForGRPC(false);
+    chain.setECDSAModeForGRPC(true);
+    //chain.setECDSAModeForGRPC(false);
     if (fs.existsSync(filename)) {
         console.log("Using certificate:", filename);
         var pem = fs.readFileSync(filename);

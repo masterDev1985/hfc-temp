@@ -61,7 +61,7 @@ var test_user_Member1;
 //
 
 // Path to the local directory containing the chaincode project under $GOPATH
-var testChaincodePath = "github.com/chaincode_example02/";
+var testChaincodePath = "cp_cc/";
 
 // Chaincode hash that will be filled in by the deployment operation or
 // chaincode name that will be referenced in development mode.
